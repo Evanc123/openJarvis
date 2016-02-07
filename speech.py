@@ -5,6 +5,7 @@ import webcolors
 from flux_master import *
 from send_sms import *
 import pyttsx
+from music import *
 engine = pyttsx.init()
 engine.setProperty('rate', 70)
 
@@ -12,7 +13,7 @@ engine.setProperty('rate', 70)
 engine.setProperty('voice', 'english')
 
 
-name_to_number = {'Anders': '+17033341250'}
+name_to_number = {'anders': '+17033341250', 'jacob' : '+17035016840', 'evan' : '+19179124199'}
 
 class Jarvis:
     def __init__(self):
@@ -41,6 +42,11 @@ class Jarvis:
             content = ''.join(content)
             sendText(name_to_number[name], content)
             engine.say("Texting %s" % name)
+        if 'play' in result:
+            song = result.split(' ')[2:]
+            song = ' '.join(song)
+            song_name_to_browser(song)
+
 
 
 
@@ -81,7 +87,7 @@ while True:
             # for testing purposes, we're just using the default API key
             # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
             # instead of `r.recognize_google(audio)`
-            result = r.recognize_google(audio)
+            result = r.recognize_google(audio).lower()
             print("Google Speech Recognition thinks you said " + result)
             
         except sr.UnknownValueError:
