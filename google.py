@@ -1,6 +1,6 @@
 from pygoogle import pygoogle
 import webbrowser
-def google(query):
+def google_query(query):
 	
 	g = pygoogle(query) 
 	g.pages=1
@@ -8,12 +8,13 @@ def google(query):
 	results = {}
 	results = g.search()
 	rl = results.keys()
-	#print rl
+
+	print rl
 	
 
 	s = rl[0]
 	s.encode('utf-8')
-	print s
+	return s
 	
 def openUrl(url):
 	webbrowser.open(url, new=2, autoraise=True)

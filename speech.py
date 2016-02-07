@@ -6,6 +6,7 @@ from flux_master import *
 from send_sms import *
 import pyttsx
 from music import *
+from google import *
 engine = pyttsx.init()
 engine.setProperty('rate', 70)
 
@@ -21,34 +22,70 @@ class Jarvis:
     def new_query(self, result):
         if 'door' in result:
 
-            if 'open' in result:
+            if 'close' in result:
                 thread = OpenDoorThread()
                 thread.daemon = True
                 thread.start()
                 engine.say("Lock Opening")
+                engine.runAndWait()
 
-            if 'close' in result:
+            if 'open' in result:
                 thread = CloseDoorThread()
                 thread.daemon = True
                 thread.start()
                 engine.say("Lock Closing")
+                engine.runAndWait()
+            if 'lock' in result:
+                thread = OpenDoorThread()
+                thread.daemon = True
+                thread.start()
+                engine.say("Lock Opening")
+                engine.runAndWait()
+
+            if 'unlock' in result:
+                thread = CloseDoorThread()
+                thread.daemon = True
+                thread.start()
+                engine.say("Lock Closing")
+                engine.runAndWait()
         if 'change' in result:
             color = result.split(' ')[-1]
             bulbmaster(color)
             engine.say("Changing to %s" % color)
+            engine.runAndWait()
+        if 'turn' in result:
+            color = result.split(' ')[-1]
+            bulbmaster(color)
+            engine.say("Changing to %s" % color)
+            engine.runAndWait()
+            # Jarvis text anders hello! 
         if 'text' in result:
-            name = result.split(' ')[1]
-            content = result.split(' ')[2:]
-            content = ''.join(content)
-            sendText(name_to_number[name], content)
-            engine.say("Texting %s" % name)
+            try:
+                name = result.split(' ')[2]
+                content = result.split(' ')[3:]
+                content = ''.join(content)
+                sendText(name_to_number[name], content)
+                engine.say("Texting %s" % name)
+                engine.runAndWait()
+            except KeyError:
+                engine.say("I don't have that number")
+                engine.runAndWait()
+
+
         if 'play' in result:
             song = result.split(' ')[2:]
             song = ' '.join(song)
             song_name_to_browser(song)
+        if 'party' in result:
 
-
-
+            song_name_to_browser('Turn Down for What')
+            time.sleep(12)
+            bulbmaster('party')
+        if 'google' in result:
+            search = result.split(' ')[2:]
+            search = ' '.join(search)
+            engine.say(google_query(search))
+            engine.runAndWait()
 
 
 
@@ -57,6 +94,8 @@ class CloseDoorThread(threading.Thread):
         '''Start your thread here'''
         call(["./close.sh"])
         pass
+
+
 class OpenDoorThread(threading.Thread):
     def run(self):
         '''Start your thread here'''
@@ -96,5 +135,5 @@ while True:
         except sr.RequestError as e:
             result = ''
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
-        if 'Jarvis in results':
+        if 'jarvis' in result:
             J.new_query(result)
