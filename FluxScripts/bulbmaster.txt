@@ -1,0 +1,16 @@
+bulbmaster:
+off
+on
+change color
+strobe(default w, color passable)
+party
+cops
+
+
+
+Flux Contoler Class
+
+has a bunch of boolean variables (on, off, strobe, setcolor) that tell bulbmaster what to do
+one str variable for color
+
+bulbmaster(i) will take a lightbulb command object and send commands to the bulb based on true/false of variables
