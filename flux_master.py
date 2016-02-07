@@ -2,6 +2,7 @@ from subprocess import call
 import re
 import random
 import os
+import webcolors
 
 def turnOff():
 	call(["python", "%s/FluxScripts/flux_led.py" % os.getcwd(), "10.0.1.4", "--off"])
@@ -62,6 +63,7 @@ def bulbmaster(i):
 		bulbstate = True
 
 	elif "strobe" in i:
+		print 'strobe'
 		if bulbstate == False:
 			turnOn()
 			bulbstate = True
@@ -88,4 +90,4 @@ def bulbmaster(i):
 		txt.write("0")
 	txt.close()
 
-bulbmaster('strobe')
+bulbmaster('off')

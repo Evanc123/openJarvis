@@ -1,6 +1,6 @@
 from subprocess import call
 import re
-import random
+import randmo
 import os
 
 def turnOff():

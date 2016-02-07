@@ -1,4 +1,4 @@
 from subprocess import call
 #call(["cd", "~/Desktop"])
-call(["./hello.sh"])
+call(["./motor.sh"])
 print "hello"

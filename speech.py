@@ -1,20 +1,48 @@
 import time
 import threading
 from subprocess import call
+import webcolors
+from flux_master import *
+from send_sms import *
+import pyttsx
+engine = pyttsx.init()
+engine.setProperty('rate', 70)
+
+
+engine.setProperty('voice', 'english')
+
+
+name_to_number = {'Anders': '+17033341250'}
+
 class Jarvis:
     def __init__(self):
         pass
-    def new_query(result):
+    def new_query(self, result):
         if 'door' in result:
 
             if 'open' in result:
                 thread = OpenDoorThread()
                 thread.daemon = True
                 thread.start()
+                engine.say("Lock Opening")
+
             if 'close' in result:
                 thread = CloseDoorThread()
                 thread.daemon = True
                 thread.start()
+                engine.say("Lock Closing")
+        if 'change' in result:
+            color = result.split(' ')[-1]
+            bulbmaster(color)
+            engine.say("Changing to %s" % color)
+        if 'text' in result:
+            name = result.split(' ')[1]
+            content = result.split(' ')[2:]
+            content = ''.join(content)
+            sendText(name_to_number[name], content)
+            engine.say("Texting %s" % name)
+
+
 
 
 
