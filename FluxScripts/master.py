@@ -2,6 +2,7 @@ from changeColor import changeColor
 from off import turnOff
 from on import turnOn
 from strobe import strobe
+from party import party
 from subprocess import call
 import re
 
@@ -31,6 +32,12 @@ def bulbmaster(i):
 			turnOn()
 			bulbstate = True
 		strobe()
+	elif "party" in i:
+		if bulbstate == False:
+			turnOn()
+			bulbstate = True
+		party()
+
 
 	else:
 		if bulbstate == False:
@@ -45,3 +52,4 @@ def bulbmaster(i):
 	else:
 		txt.seek(0)
 		txt.write("0")
+	txt.close()
